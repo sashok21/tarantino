@@ -5,27 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4c040a24-b564-4e67-b3b6-86c68ad93429" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/manage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/tarantini/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/tarantini/asgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/tarantini/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/tarantini/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantini/tarantini/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/manage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/polls/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/asgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/wsgi.py" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/tarantino/polls/templates/question_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tarantino/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tarantino/polls/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tarantino/tarantino/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tarantino/tarantino/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +17,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2v4V9xi7xaw4Ue68FxUpwjFKawx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -48,7 +30,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/IT.py/tarantino/tarantino"
+    "last_opened_file_path": "C:/Users/classuser200/Desktop/Medvid Arsen/pythonProject5/tarantino/tarantino"
   }
 }]]></component>
   <component name="SharedIndexes">
