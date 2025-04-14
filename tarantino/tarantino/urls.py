@@ -3,9 +3,11 @@ from django.urls import path
 from django.contrib import admin
 from polls.views import question_list
 
-app_name = 'polls'
+from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', question_list, name='question_list'),
+    path('', include('polls.urls')),
+    path('home', question_list, name='home')
 ]
