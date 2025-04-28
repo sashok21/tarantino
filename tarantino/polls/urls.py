@@ -1,12 +1,9 @@
 from django.urls import path
-
-from django.contrib import admin
-from polls.views import question_list, register_view
-
-from django.urls import path
-
-app_name = 'polls'
+from . import views
 
 urlpatterns = [
-    path('register', register_view, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('register/', views.register_view, name='register'),
+    path('home/', views.question_list, name='home'),
+    path('logout/', views.logout_view, name='logout'),
 ]
