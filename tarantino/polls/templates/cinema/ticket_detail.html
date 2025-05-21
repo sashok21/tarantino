@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Квиток #{{ ticket.id }} - Tarantino{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Деталі квитка #{{ ticket.id }}</h1>
+
+<div class="ticket-detail-card">
+    <div class="ticket-left">
+        <h2 class="movie-title">{{ ticket.screening.movie.title }}</h2>
+        <p><strong>Користувач:</strong> {{ ticket.user.username }}</p>
+        <p><strong>Зал:</strong> {{ ticket.screening.hall.name }}</p>
+        <p><strong>Кінотеатр:</strong> {{ ticket.screening.hall.cinema.name }}</p>
+        <p><strong>Дата і час:</strong> {{ ticket.screening.start_time|date:"d.m.Y H:i" }}</p>
+        <p><strong>Місце:</strong> {{ ticket.seat_number }}</p>
+        <p><strong>Код квитка:</strong> {{ ticket.ticket_code }}</p>
+
+        <a href="{% url 'user_tickets' %}" class="btn-back">← Назад до квитків</a>
+    </div>
+
+    <div class="ticket-right">
+        <div class="qr-placeholder">
+            <span>QR-код</span>
+        </div>
+        <p class="qr-caption">Покажіть при вході</p>
+    </div>
+</div>
+
+<style>
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+
+    .ticket-detail-card {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .ticket-left {
+        flex: 2;
+        min-width: 280px;
+    }
+
+    .ticket-right {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .movie-title {
+        margin-top: 0;
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .qr-placeholder {
+        width: 120px;
+        height: 120px;
+        background-color: #eee;
+        border: 2px dashed #bbb;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .qr-caption {
+        font-size: 13px;
+        color: #666;
+        margin-top: 8px;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

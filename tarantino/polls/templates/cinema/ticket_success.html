@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Успішна покупка квитка{% endblock %}
+
+{% block content %}
+    <h1>Дякуємо!</h1>
+    <p>Ваш квиток успішно заброньовано.</p>
+    <a href="{% url 'cinema_list' %}">Повернутись до списку кінотеатрів</a>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Сеанси сьогодні - Tarantino{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --yellow: #ffcc00;
+    --red: #cc0000;
+    --bg: #fffdf4;
+    --shadow: rgba(0, 0, 0, 0.15);
+    --text: #222;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 40px 0 30px;
+    font-size: 2.5rem;
+    color: var(--red);
+    text-shadow: 1px 1px var(--yellow);
+  }
+
+  .screening-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 20px 60px;
+  }
+
+  .card {
+    background-color: var(--bg);
+    border-radius: 18px;
+    box-shadow: 0 8px 16px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    flex-wrap: wrap;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+  }
+
+  .card-body {
+    padding: 24px;
+    flex: 1 1 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-body h2 {
+    font-size: 1.8rem;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .card-body p {
+    margin: 6px 0;
+    color: var(--text);
+    font-size: 1rem;
+  }
+
+  .card-body p strong {
+    color: var(--yellow);
+  }
+
+  .poster-container {
+    flex: 0 0 200px;
+    max-width: 200px;
+    overflow: hidden;
+  }
+
+  .poster-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-left: 2px solid var(--yellow);
+  }
+
+  .btn {
+    margin-top: 14px;
+    background-color: var(--red);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    align-self: start;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #990000;
+  }
+</style>
+
+<h1>Сеанси на {{ date }}</h1>
+
+<div class="screening-list">
+    {% for screening in screenings %}
+        <div class="card">
+            <div class="card-body">
+                <h2>{{ screening.movie.title }}</h2>
+                <p><strong>Режисер:</strong> {{ screening.movie.director }}</p>
+                <p><strong>Тривалість:</strong> {{ screening.movie.duration }} хв.</p>
+                <p><strong>Кінотеатр:</strong> {{ screening.hall.cinema.name }}</p>
+                <p><strong>Зал:</strong> {{ screening.hall.name }}</p>
+                <p><strong>Час початку:</strong> {{ screening.start_time|date:"H:i" }}</p>
+                <p><strong>Ціна:</strong> {{ screening.price }} грн</p>
+                <p><strong>Вільні місця:</strong> {{ screening.available_seats }}</p>
+                <a href="{% url 'screening_detail' screening.id %}" class="btn">Детальніше</a>
+            </div>
+            {% if screening.movie.poster %}
+                <div class="poster-container">
+                    <img src="{{ screening.movie.poster.url }}" alt="Постер до {{ screening.movie.title }}">
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p style="text-align:center; font-size: 1.2rem;">Сьогодні немає доступних сеансів.</p>
+    {% endfor %}
+</div>
+{% endblock %}

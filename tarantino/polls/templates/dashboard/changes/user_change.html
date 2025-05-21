@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Редагування користувача: {{ user_obj.username }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Загальна інформація</legend>
+        {{ form.as_p }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Зміна паролю</legend>
+        {{ pwd_form.as_p }}
+        <p>Якщо не потрібно змінювати пароль — залиште ці поля порожніми.</p>
+    </fieldset>
+
+    <button type="submit">Зберегти</button>
+</form>
+{% endblock %}

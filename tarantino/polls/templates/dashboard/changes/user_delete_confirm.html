@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Підтвердження видалення користувача</h2>
+    <p>Ви впевнені, що хочете видалити користувача <strong>{{ user.username }}</strong>?</p>
+    <form method="post" action="{% url 'admin_user_delete' user.id %}">
+        {% csrf_token %}
+        <button type="submit">Так, видалити</button>
+        <a href="{% url 'admin_user_list' %}">Відміна</a>
+    </form>
+{% endblock %}

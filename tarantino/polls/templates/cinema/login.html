@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Вхід - Tarantino{% endblock %}
+
+{% block content %}
+<style>
+  /* Стилі для картки входу в тому ж стилі */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(204, 0, 0, 0.2);
+    padding: 30px 25px;
+    max-width: 400px;
+    margin: 40px auto;
+  }
+
+  h2 {
+    color: #cc0000;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  label {
+    color: #cc0000;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid #cc0000;
+    font-size: 1rem;
+    color: #222;
+    background: #fff9e6;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #ffcc00;
+    outline: none;
+  }
+
+  .error {
+    color: #cc0000;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  button[type="submit"] {
+    background: #ffcc00;
+    color: #cc0000;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  button[type="submit"]:hover {
+    background: #cc0000;
+    color: #ffcc00;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 20px;
+    color: #222;
+  }
+
+  p a {
+    color: #ffcc00;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  p a:hover {
+    color: #cc0000;
+    text-decoration: underline;
+  }
+</style>
+
+<div class="card" tabindex="0" role="main" aria-label="Форма входу користувача">
+  <h2>Вхід в систему</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="id_username">Ім'я користувача:</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="error">{{ form.username.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_password">Пароль:</label>
+      {{ form.password }}
+      {% if form.password.errors %}
+        <div class="error">{{ form.password.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button type="submit">Увійти</button>
+  </form>
+  <p>Немає аккаунта? <a href="{% url 'register' %}">Зареєструватися</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ cinema.name }} - Tarantino{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --primary: #cc0000;
+    --accent: #ffcc00;
+    --light-bg: #fffaf0;
+    --card-bg: #ffffff;
+    --text: #222;
+    --shadow: rgba(0, 0, 0, 0.15);
+  }
+
+  h1, h2, h3 {
+    color: var(--primary);
+    text-shadow: 1px 1px var(--accent);
+  }
+
+  .cinema-details {
+    background-color: var(--light-bg);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 40px;
+  }
+
+  .info p, .description p {
+    font-size: 1rem;
+    margin: 6px 0;
+    color: var(--text);
+  }
+
+  .description {
+    margin-top: 20px;
+  }
+
+  .gallery {
+    margin-top: 30px;
+  }
+
+  .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .image-item {
+    width: 200px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .image-item img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+
+  .caption {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .halls-list, .screening-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  .card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card h3 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+  }
+
+  .card p {
+    margin: 6px 0;
+    color: var(--text);
+  }
+
+  .btn {
+    margin-top: 12px;
+    align-self: start;
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #990000;
+  }
+
+  @media (max-width: 600px) {
+    .image-gallery {
+      justify-content: center;
+    }
+
+    .image-item {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
+
+<h1>{{ cinema.name }}</h1>
+
+<div class="cinema-details">
+  <div class="info">
+    <p><strong>Адреса:</strong> {{ cinema.address }}</p>
+    <p><strong>Телефон:</strong> {{ cinema.contact_phone }}</p>
+    <p><strong>Email:</strong> {{ cinema.email }}</p>
+    <p><strong>Години роботи:</strong> {{ cinema.opening_hours }}</p>
+  </div>
+
+  <div class="description">
+    <h2>Опис</h2>
+    <p>{{ cinema.description }}</p>
+  </div>
+
+  {% if cinema.images.all %}
+    <div class="gallery">
+      <h2>Фотографії</h2>
+      <div class="image-gallery">
+        {% for image in cinema.images.all %}
+          <div class="image-item">
+            <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+            {% if image.caption %}
+              <p class="caption">{{ image.caption }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<h2>Зали</h2>
+<div class="halls-list">
+  {% for hall in halls %}
+    <div class="card">
+      <h3>{{ hall.name }}</h3>
+      <p>Кількість місць: {{ hall.capacity }}</p>
+      {% if hall.description %}
+        <p>{{ hall.description }}</p>
+      {% endif %}
+      <a href="{% url 'hall_detail' cinema.id hall.id %}" class="btn">Детальніше</a>
+    </div>
+  {% empty %}
+    <p>У цього кінотеатру немає залів.</p>
+  {% endfor %}
+</div>
+
+<h2>Сеанси сьогодні</h2>
+<div class="screening-list">
+  {% for screening in screenings %}
+    <div class="card">
+      <h3>{{ screening.movie.title }}</h3>
+      <p>Зал: {{ screening.hall.name }}</p>
+      <p>Час початку: {{ screening.start_time|date:"H:i" }}</p>
+      <p>Ціна: {{ screening.price }} грн</p>
+      <p>Вільні місця: {{ screening.available_seats }}</p>
+      <a href="{% url 'screening_detail' screening.id %}" class="btn">Детальніше</a>
+    </div>
+  {% empty %}
+    <p>Сьогодні немає доступних сеансів.</p>
+  {% endfor %}
+</div>
+{% endblock %}

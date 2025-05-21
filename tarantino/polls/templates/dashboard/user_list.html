@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Користувачі - Панель адміністратора{% endblock %}
+
+{% block content %}
+<h2 class="admin-title">Список користувачів</h2>
+
+<div class="table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>👤 Логін</th>
+                <th>📧 Email</th>
+                <th>✏️ Редагувати</th>
+                <th>🗑️ Видалити</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td><a href="{% url 'admin_user_change' user.id %}" class="btn-edit">Редагувати</a></td>
+                <td><a href="{% url 'admin_user_delete' user.id %}" class="btn-delete">Видалити</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Немає зареєстрованих користувачів.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .admin-title {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #333;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .admin-table th, .admin-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .admin-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-edit {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #a71d2a;
+    }
+</style>
+{% endblock %}

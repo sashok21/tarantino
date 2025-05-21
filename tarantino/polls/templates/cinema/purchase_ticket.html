@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Купити квиток - {{ screening.movie.title }} - Tarantino{% endblock %}
+
+{% block content %}
+    <div class="breadcrumbs">
+        <a href="{% url 'cinema_list' %}">Кінотеатри</a> &gt; 
+        <a href="{% url 'cinema_detail' screening.hall.cinema.id %}">{{ screening.hall.cinema.name }}</a> &gt; 
+        <a href="{% url 'hall_detail' screening.hall.cinema.id screening.hall.id %}">{{ screening.hall.name }}</a> &gt; 
+        <a href="{% url 'screening_detail' screening.id %}">{{ screening.movie.title }}</a> &gt; 
+        Купити квиток
+    </div>
+
+    <h1>Купити квиток</h1>
+    <h2>{{ screening.movie.title }}</h2>
+    
+    <div class="screening-summary">
+        <p><strong>Кінотеатр:</strong> {{ screening.hall.cinema.name }}</p>
+        <p><strong>Зал:</strong> {{ screening.hall.name }}</p>
+        <p><strong>Дата і час:</strong> {{ screening.start_time }}</p>
+        <p><strong>Ціна:</strong> {{ screening.price }} грн</p>
+    </div>
+    
+    <div class="ticket-form">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.seat_number.id_for_label }}">{{ form.seat_number.label }}</label>
+                {{ form.seat_number }}
+                {% if form.seat_number.help_text %}
+                    <p class="help-text">{{ form.seat_number.help_text }}</p>
+                {% endif %}
+                {% if form.seat_number.errors %}
+                    <div class="errors">
+                        {% for error in form.seat_number.errors %}
+                            <p class="error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn">Купити</button>
+        </form>
+    </div>
+    
+    <div class="payment-info">
+        <h3>Інформація про оплату</h3>
+        <p>Оплата відбувається на місці в кінотеатрі. Покажіть свій електронний квиток на вході до зали.</p>
+    </div>
+{% endblock %}

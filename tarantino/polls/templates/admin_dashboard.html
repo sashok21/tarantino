@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Панель адміністратора - Tarantino{% endblock %}
+
+{% block content %}
+<h1 class="admin-title">Панель адміністратора</h1>
+
+<div class="admin-dashboard">
+    <a href="{% url 'admin_user_list' %}" class="admin-card">👤 Користувачі</a>
+    <a href="{% url 'admin_cinema_list' %}" class="admin-card">🎬 Кінотеатри</a>
+    <a href="{% url 'admin_hall_list' %}" class="admin-card">🏛️ Зали</a>
+    <a href="{% url 'admin_movie_list' %}" class="admin-card">🎞️ Фільми</a>
+    <a href="{% url 'admin_screening_list' %}" class="admin-card">🕒 Сеанси</a>
+    <a href="{% url 'admin_ticket_list' %}" class="admin-card">🎟️ Квитки</a>
+</div>
+
+<style>
+    .admin-title {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 40px;
+        font-size: 32px;
+        color: #333;
+    }
+
+    .admin-dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .admin-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        color: #333;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .admin-card:hover {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 4px 16px rgba(0, 123, 255, 0.2);
+    }
+</style>
+{% endblock %}

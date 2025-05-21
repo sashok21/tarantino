@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Головна - Tarantino{% endblock %}
+
+{% block content %}
+<style>
+  /* Основні кольори для гармонії з червоним/жовтим хедером */
+  :root {
+    --primary-yellow: #ffcc00;
+    --primary-red: #cc0000;
+    --text-dark: #222;
+    --text-light: #555;
+    --bg-light: #fff9e6;
+    --card-bg: #fff;
+    --card-shadow: rgba(204, 0, 0, 0.2);
+  }
+
+  /* Анімація появи */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cinema-list, .screening-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px var(--card-shadow);
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0; /* Старт з прозорості для анімації */
+  }
+
+  /* Анімація появи з затримкою для карток */
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+  .card:nth-child(5) { animation-delay: 0.5s; }
+  .card:nth-child(6) { animation-delay: 0.6s; }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 12px 24px var(--primary-red);
+  }
+
+  .card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover img {
+    transform: scale(1.05);
+  }
+
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+    color: var(--primary-red);
+    font-weight: 700;
+  }
+
+  .card p {
+    margin: 6px 0;
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .card a {
+    margin-top: auto;
+    align-self: flex-start;
+    color: var(--primary-yellow);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+  }
+
+  .card a:hover {
+    color: var(--primary-red);
+    text-decoration: underline;
+  }
+
+  h1 {
+    color: var(--primary-yellow);
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px var(--primary-red);
+    animation: fadeInUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  h2 {
+    color: var(--primary-red);
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--primary-yellow);
+    padding-bottom: 5px;
+    animation: fadeInUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  p.intro {
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    color: var(--text-dark);
+    animation: fadeInUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  /* Застосування анімації появи з відтермінуванням для заголовків і параграфа */
+  h1, h2, p.intro {
+    animation-delay: 0.1s;
+    animation-fill-mode: forwards;
+  }
+
+  p.intro {
+    animation-delay: 0.2s;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      width: 100%;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
+
+<h1>Ласкаво просимо до Tarantino!</h1>
+<p class="intro">Система пошуку квитків на кіносеанс, що допомагає вам легко знаходити та бронювати квитки на улюблені фільми.</p>
+
+<section>
+    <h2>Популярні кінотеатри</h2>
+    <div class="cinema-list">
+        {% for cinema in cinemas %}
+            <div class="card" tabindex="0" role="article" aria-label="Кінотеатр {{ cinema.name }}">
+                {% if cinema.image %}
+                  <img src="{{ cinema.image.url }}" alt="Фото кінотеатру {{ cinema.name }}">
+                {% else %}
+                  <img src="{% static 'images/default_cinema.jpg' %}" alt="Фото кінотеатру за замовчуванням">
+                {% endif %}
+                <h3>{{ cinema.name }}</h3>
+                <p><strong>Адреса:</strong> {{ cinema.address }}</p>
+                <p><strong>Години роботи:</strong> {{ cinema.opening_hours }}</p>
+                <a href="{% url 'cinema_detail' cinema.id %}">Детальніше</a>
+            </div>
+        {% empty %}
+            <p>Нема доступних кінотеатрів.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h2>Сеанси сьогодні</h2>
+    <div class="screening-list">
+        {% for screening in today_screenings %}
+            <div class="card" tabindex="0" role="article" aria-label="Сеанс фільму {{ screening.movie.title }}">
+                {% if screening.hall.cinema.image %}
+                  <img src="{{ screening.hall.cinema.image.url }}" alt="Фото кінотеатру {{ screening.hall.cinema.name }}">
+                {% else %}
+                  <img src="{% static 'images/default_cinema.jpg' %}" alt="Фото кінотеатру за замовчуванням">
+                {% endif %}
+                <h3>{{ screening.movie.title }}</h3>
+                <p><strong>Кінотеатр:</strong> {{ screening.hall.cinema.name }}</p>
+                <p><strong>Зал:</strong> {{ screening.hall.name }}</p>
+                <p><strong>Час початку:</strong> {{ screening.start_time|date:"H:i" }}</p>
+                <p><strong>Ціна:</strong> {{ screening.price }} грн</p>
+                <p><strong>Вільні місця:</strong> {{ screening.available_seats }}</p>
+                <a href="{% url 'screening_detail' screening.id %}">Детальніше</a>
+            </div>
+        {% empty %}
+            <p>Сьогодні немає доступних сеансів.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Сеанси - Панель адміністратора{% endblock %}
+
+{% block content %}
+<h2 class="admin-title">🕒 Сеанси</h2>
+
+<div class="action-bar">
+    <a href="{% url 'admin_screening_add' %}" class="btn-add">➕ Додати сеанс</a>
+</div>
+
+<div class="table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>🎞️ Фільм</th>
+                <th>🏛️ Зал</th>
+                <th>📅 Початок</th>
+                <th colspan="2">⚙️ Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for screening in screenings %}
+            <tr>
+                <td>{{ screening.movie.title }}</td>
+                <td>{{ screening.hall.name }}</td>
+                <td>{{ screening.start_time|date:"d.m.Y H:i" }}</td>
+                <td><a href="{% url 'admin_screening_change' screening.id %}" class="btn-edit">Редагувати</a></td>
+                <td><a href="{% url 'admin_screening_delete' screening.id %}" class="btn-delete">Видалити</a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">Немає доступних сеансів.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .admin-title {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #333;
+    }
+
+    .action-bar {
+        text-align: right;
+        margin: 10px 0 20px;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn-add {
+        background-color: #28a745;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-add:hover {
+        background-color: #218838;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .admin-table th, .admin-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .admin-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-block;
+    }
+
+    .btn-edit {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #a71d2a;
+    }
+</style>
+{% endblock %}

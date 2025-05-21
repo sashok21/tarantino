@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Видалити квиток?</h2>
+<p>Квиток: {{ ticket }}</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Підтвердити видалення</button>
+  <a href="{% url 'admin_ticket_list' %}">Відмінити</a>
+</form>
+{% endblock %}

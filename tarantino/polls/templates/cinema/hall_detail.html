@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hall.name }} - {{ cinema.name }} - Tarantino{% endblock %}
+
+{% block content %}
+    <div class="breadcrumbs">
+        <a href="{% url 'cinema_list' %}">Кінотеатри</a> &gt; 
+        <a href="{% url 'cinema_detail' cinema.id %}">{{ cinema.name }}</a> &gt; 
+        {{ hall.name }}
+    </div>
+
+    <h1>{{ hall.name }}</h1>
+    <h2>{{ cinema.name }}</h2>
+    
+    <div class="hall-details">
+        <div class="info">
+            <p><strong>Кількість місць:</strong> {{ hall.capacity }}</p>
+        </div>
+        
+        <div class="description">
+            <h3>Опис</h3>
+            <p>{{ hall.description|default:"Опис відсутній" }}</p>
+        </div>
+        
+        {% if hall.images.all %}
+            <div class="gallery">
+                <h3>Фотографії</h3>
+                <div class="image-gallery">
+                    {% for image in hall.images.all %}
+                        <div class="image-item">
+                            <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                            {% if image.caption %}
+                                <p class="caption">{{ image.caption }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <h2>Сеанси сьогодні</h2>
+    <div class="screening-list">
+        {% for screening in screenings %}
+            <div class="card">
+                <h3>{{ screening.movie.title }}</h3>
+                <p>Режисер: {{ screening.movie.director }}</p>
+                <p>Час початку: {{ screening.start_time|date:"H:i" }}</p>
+                <p>Тривалість: {{ screening.movie.duration }} хв.</p>
+                <p>Ціна: {{ screening.price }} грн</p>
+                <p>Вільні місця: {{ screening.available_seats }}</p>
+                <a href="{% url 'screening_detail' screening.id %}" class="btn">Детальніше</a>
+            </div>
+        {% empty %}
+            <p>Сьогодні немає доступних сеансів у цьому залі.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

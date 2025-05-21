@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ screening.movie.title }} - Деталі сеансу{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --primary-yellow: #ffcc00;
+    --primary-red: #cc0000;
+    --text-dark: #222;
+    --text-light: #555;
+    --bg-light: #fff9e6;
+    --card-shadow: rgba(204, 0, 0, 0.2);
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .screening-detail {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 25px var(--card-shadow);
+    animation: fadeInUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .screening-detail h1 {
+    color: var(--primary-yellow);
+    font-size: 2.6rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px var(--primary-red);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .poster img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+  }
+
+  .poster img:hover {
+    transform: scale(1.02);
+  }
+
+  .movie-info, .screening-info {
+    margin-bottom: 24px;
+  }
+
+  .movie-info p, .screening-info p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 8px 0;
+  }
+
+  .movie-info strong, .screening-info strong {
+    color: var(--primary-red);
+  }
+
+  .purchase {
+    margin-top: 30px;
+  }
+
+  .btn {
+    background-color: var(--primary-red);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #990000;
+  }
+
+  .login-prompt {
+    margin-top: 30px;
+    font-style: italic;
+    font-size: 1.05rem;
+    text-align: center;
+  }
+
+  .login-prompt a {
+    color: var(--primary-yellow);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .login-prompt a:hover {
+    color: var(--primary-red);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .screening-detail {
+      padding: 20px;
+    }
+
+    .screening-detail h1 {
+      font-size: 2rem;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="screening-detail" role="main" aria-labelledby="screening-title">
+    <h1 id="screening-title">{{ screening.movie.title }}</h1>
+
+    {% if screening.movie.poster %}
+        <div class="poster">
+            <img src="{{ screening.movie.poster.url }}" alt="Постер до фільму {{ screening.movie.title }}">
+        </div>
+    {% endif %}
+
+    <div class="movie-info">
+        <p><strong>Опис:</strong> {{ screening.movie.description }}</p>
+        <p><strong>Режисер:</strong> {{ screening.movie.director }}</p>
+        <p><strong>Тривалість:</strong> {{ screening.movie.duration }} хв.</p>
+    </div>
+
+    <div class="screening-info">
+        <h2 style="color: var(--primary-red); border-bottom: 2px solid var(--primary-yellow); padding-bottom: 5px;">Інформація про сеанс</h2>
+        <p><strong>Кінотеатр:</strong> {{ screening.hall.cinema.name }}</p>
+        <p><strong>Зал:</strong> {{ screening.hall.name }}</p>
+        <p><strong>Дата і час:</strong> {{ screening.start_time|date:"d.m.Y H:i" }}</p>
+        <p><strong>Ціна:</strong> {{ screening.price }} грн</p>
+        <p><strong>Доступні місця:</strong> {{ screening.available_seats }}</p>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="purchase">
+            <a href="{% url 'purchase_ticket' screening.id %}" class="btn">Купити квиток</a>
+        </div>
+    {% else %}
+        <div class="login-prompt">
+            Щоб купити квиток, <a href="{% url 'login' %}">увійдіть</a> або <a href="{% url 'register' %}">зареєструйтесь</a>.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
