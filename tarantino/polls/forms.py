@@ -111,24 +111,22 @@ class ScreeningForm(forms.ModelForm):
         }
 
 class TicketForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset=User.objects.all(), label='Користувач')
-    screening = forms.ModelChoiceField(queryset=Screening.objects.all(), label='Сеанс')
-
     class Meta:
         model = Ticket
-        fields = ['user', 'screening', 'seat_number']
-        labels = {
-            'seat_number': 'Номер місця',
-        }
+        fields = ['seat_number']
+        labels = {'seat_number': 'Номер місця'}
+
+    def __init__(self, *args, **kwargs):
+        self.screening = kwargs.pop('screening', None)
+        super().__init__(*args, **kwargs)
 
     def clean_seat_number(self):
         seat_number = self.cleaned_data['seat_number']
-        screening = self.cleaned_data.get('screening')
+        screening = self.screening
         if not screening:
-            raise forms.ValidationError('Будь ласка, виберіть сеанс.')
+            raise forms.ValidationError('Сеанс не вказано.')
 
         capacity = screening.hall.capacity
-
         if seat_number < 1 or seat_number > capacity:
             raise forms.ValidationError(f"Номер місця повинен бути від 1 до {capacity}.")
 
@@ -136,6 +134,7 @@ class TicketForm(forms.ModelForm):
             raise forms.ValidationError("Це місце вже зайняте.")
 
         return seat_number
+
 
 class TicketPurchaseForm(forms.Form):
     seat_number = forms.IntegerField(
